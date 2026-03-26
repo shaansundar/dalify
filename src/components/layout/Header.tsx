@@ -5,6 +5,26 @@ import Link from "next/link";
 import { MAIN_NAV, type NavItem } from "@/lib/navigation";
 import { Container } from "@/components/ui/Container";
 
+function SearchIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
 function CartIcon() {
   return (
     <svg
@@ -156,14 +176,23 @@ export function Header({ onMobileMenuOpen }: HeaderProps) {
             )}
           </nav>
 
-          {/* Cart */}
-          <Link
-            href="/cart"
-            className="p-2 text-charcoal transition-colors duration-150 hover:text-green"
-            aria-label="Shopping cart"
-          >
-            <CartIcon />
-          </Link>
+          {/* Search + Cart */}
+          <div className="flex items-center gap-1">
+            <Link
+              href="/search"
+              className="p-2 text-charcoal transition-colors duration-150 hover:text-green"
+              aria-label="Search products"
+            >
+              <SearchIcon />
+            </Link>
+            <Link
+              href="/cart"
+              className="p-2 text-charcoal transition-colors duration-150 hover:text-green"
+              aria-label="Shopping cart"
+            >
+              <CartIcon />
+            </Link>
+          </div>
         </div>
       </Container>
     </header>
