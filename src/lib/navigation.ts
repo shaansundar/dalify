@@ -69,9 +69,9 @@ export const FOOTER_NAV = {
     { label: "FAQ", href: "/faq" },
   ],
   legal: [
-    { label: "Privacy Policy", href: "/pages/privacy-policy" },
-    { label: "Terms of Service", href: "/pages/terms-of-service" },
-    { label: "Refund Policy", href: "/pages/refund-policy" },
-    { label: "Shipping Policy", href: "/pages/shipping-policy" },
+    { label: "Privacy Policy", href: "/policies/privacy" },
+    { label: "Terms of Service", href: "/policies/terms" },
+    { label: "Refund Policy", href: "/policies/refund" },
+    { label: "Shipping Policy", href: "/policies/shipping" },
   ],
 } as const;
