@@ -23,17 +23,16 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
       } else {
         params.set(key, value);
       }
-      params.delete("after"); // reset pagination on filter change
+      params.delete("after");
       router.push(`?${params.toString()}`, { scroll: false });
     },
     [router, searchParams],
   );
 
   const filterContent = (
-    <div className="space-y-6">
-      {/* Availability */}
+    <div className="space-y-5">
       <div>
-        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-charcoal-muted">
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-charcoal-muted">
           Availability
         </h3>
         <label className="flex cursor-pointer items-center gap-2 text-sm text-charcoal">
@@ -49,13 +48,12 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
         </label>
       </div>
 
-      {/* Tags */}
       {availableTags.length > 0 && (
         <div>
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-charcoal-muted">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-charcoal-muted">
             Category
           </h3>
-          <div className="space-y-1.5">
+          <div className="flex flex-wrap gap-2">
             {availableTags.map((tag) => (
               <button
                 key={tag}
@@ -63,10 +61,10 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
                 onClick={() =>
                   applyFilter("tag", currentTag === tag ? null : tag)
                 }
-                className={`block w-full rounded-md px-3 py-1.5 text-left text-sm transition-colors ${
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
                   currentTag === tag
-                    ? "bg-green-muted font-medium text-green"
-                    : "text-charcoal hover:bg-cream-dark"
+                    ? "border-green bg-green-muted font-medium text-green"
+                    : "border-cream-dark text-charcoal hover:border-charcoal-muted"
                 }`}
               >
                 {tag}
@@ -80,7 +78,7 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
 
   return (
     <>
-      {/* Mobile toggle */}
+      {/* Mobile: toggle button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -102,7 +100,7 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
         Filters
       </button>
 
-      {/* Mobile drawer */}
+      {/* Mobile: bottom drawer */}
       {isOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div
@@ -121,7 +119,7 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="text-charcoal-muted"
+                className="text-2xl leading-none text-charcoal-muted"
                 aria-label="Close"
               >
                 &times;
@@ -132,13 +130,8 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
         </div>
       )}
 
-      {/* Desktop sidebar */}
-      <aside className="hidden w-56 flex-shrink-0 md:block">
-        <h2 className="mb-4 font-heading text-lg font-semibold text-charcoal">
-          Filters
-        </h2>
-        {filterContent}
-      </aside>
+      {/* Desktop: horizontal filter bar */}
+      <div className="hidden md:block">{filterContent}</div>
     </>
   );
 }

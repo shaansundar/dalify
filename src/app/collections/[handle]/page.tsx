@@ -10,7 +10,10 @@ import {
 import { Container } from "@/components/ui/Container";
 import { CollectionHeader } from "@/components/collection/CollectionHeader";
 import { ProductGrid } from "@/components/collection/ProductGrid";
-import { SortDropdown, parseSortValue } from "@/components/collection/SortDropdown";
+import {
+  SortDropdown,
+  parseSortValue,
+} from "@/components/collection/SortDropdown";
 import { FilterSidebar } from "@/components/collection/FilterSidebar";
 import { ActiveFilters } from "@/components/collection/ActiveFilters";
 import { LoadMoreButton } from "@/components/collection/LoadMoreButton";
@@ -160,8 +163,8 @@ export default async function CollectionPage({
       />
 
       <Container className="py-8 sm:py-12">
-        {/* Toolbar: mobile filter toggle + sort */}
-        <div className="mb-6 flex items-center justify-between gap-4">
+        {/* Toolbar row */}
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <Suspense>
             <FilterSidebar availableTags={availableTags} />
           </Suspense>
@@ -180,6 +183,7 @@ export default async function CollectionPage({
         {/* Product grid */}
         <ProductGrid products={products} />
 
+        {/* Pagination */}
         <Suspense>
           <LoadMoreButton
             endCursor={pageInfo.endCursor ?? ""}
