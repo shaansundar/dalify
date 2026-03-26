@@ -21,7 +21,7 @@ export function LoadMoreButton({
   const [isPending, startTransition] = useTransition();
 
   const handleLoadMore = useCallback(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
     params.set("after", endCursor);
     startTransition(() => {
       router.push(`?${params.toString()}`, { scroll: false });

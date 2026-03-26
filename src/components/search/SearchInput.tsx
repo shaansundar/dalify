@@ -122,7 +122,7 @@ export function SearchInput({ initialQuery = "" }: SearchInputProps) {
 
   // Sync with URL on mount
   useEffect(() => {
-    const q = searchParams.get("q");
+    const q = searchParams?.get("q") ?? null;
     if (q && q !== query) {
       setQuery(q);
     }

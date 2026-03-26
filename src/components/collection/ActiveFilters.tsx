@@ -7,9 +7,9 @@ export function ActiveFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const availability = searchParams.get("available");
-  const tag = searchParams.get("tag");
-  const sort = searchParams.get("sort");
+  const availability = searchParams?.get("available") ?? null;
+  const tag = searchParams?.get("tag") ?? null;
+  const sort = searchParams?.get("sort") ?? null;
 
   const filters: Array<{ label: string; paramKey: string }> = [];
 
@@ -22,7 +22,7 @@ export function ActiveFilters() {
 
   const removeFilter = useCallback(
     (paramKey: string) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString() ?? "");
       params.delete(paramKey);
       params.delete("after"); // reset pagination
       router.push(`?${params.toString()}`, { scroll: false });

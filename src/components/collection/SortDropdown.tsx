@@ -38,11 +38,11 @@ export function parseSortValue(value: string | null): {
 export function SortDropdown() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentSort = searchParams.get("sort") ?? "best-selling";
+  const currentSort = searchParams?.get("sort") ?? "best-selling";
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString() ?? "");
       params.set("sort", e.target.value);
       params.delete("after"); // reset pagination on sort change
       router.push(`?${params.toString()}`, { scroll: false });

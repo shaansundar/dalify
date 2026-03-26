@@ -12,12 +12,12 @@ export function FilterSidebar({ availableTags }: FilterSidebarProps) {
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
 
-  const currentTag = searchParams.get("tag");
-  const currentAvailable = searchParams.get("available");
+  const currentTag = searchParams?.get("tag") ?? null;
+  const currentAvailable = searchParams?.get("available") ?? null;
 
   const applyFilter = useCallback(
     (key: string, value: string | null) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString() ?? "");
       if (value === null) {
         params.delete(key);
       } else {
