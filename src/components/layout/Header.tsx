@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { MAIN_NAV, type NavItem } from "@/lib/navigation";
 import { Container } from "@/components/ui/Container";
+import { useCart } from "@/components/cart/CartProvider";
 
 function SearchIcon() {
   return (
@@ -135,6 +136,9 @@ interface HeaderProps {
 }
 
 export function Header({ onMobileMenuOpen }: HeaderProps) {
+  const { cart, openDrawer } = useCart();
+  const itemCount = cart?.totalQuantity ?? 0;
+
   return (
     <header className="sticky top-0 z-40 border-b border-sand-light bg-warm-white/95 backdrop-blur-sm">
       <Container>
@@ -185,13 +189,19 @@ export function Header({ onMobileMenuOpen }: HeaderProps) {
             >
               <SearchIcon />
             </Link>
-            <Link
-              href="/cart"
-              className="p-2 text-charcoal transition-colors duration-150 hover:text-green"
-              aria-label="Shopping cart"
+            <button
+              type="button"
+              onClick={openDrawer}
+              className="relative p-2 text-charcoal transition-colors duration-150 hover:text-green"
+              aria-label={`Shopping cart${itemCount > 0 ? `, ${itemCount} items` : ""}`}
             >
               <CartIcon />
-            </Link>
+              {itemCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[10px] font-bold text-warm-white">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              )}
+            </button>
           </div>
         </div>
       </Container>

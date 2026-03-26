@@ -4,6 +4,8 @@ import "@/styles/globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { NavigationShell } from "@/components/layout/NavigationShell";
 import { Footer } from "@/components/layout/Footer";
+import { CartProvider } from "@/components/cart/CartProvider";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -44,10 +46,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="bg-warm-white text-charcoal font-body antialiased">
-        <AnnouncementBar />
-        <NavigationShell />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <CartProvider>
+          <AnnouncementBar />
+          <NavigationShell />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );

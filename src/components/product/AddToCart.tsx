@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useTransition } from "react";
+import { useCart } from "@/components/cart/CartProvider";
 
 interface AddToCartProps {
   readonly variantId: string;
@@ -14,23 +15,16 @@ export function AddToCart({
   quantityAvailable,
 }: AddToCartProps) {
   const [quantity, setQuantity] = useState(1);
-  const [isAdding, setIsAdding] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const { addItem } = useCart();
 
   const maxQty = quantityAvailable ?? 10;
 
-  const handleAddToCart = useCallback(async () => {
-    setIsAdding(true);
-    try {
-      // TODO: Wire to real server action from NIM-24 when ready
-      // await addToCart({ variantId, quantity });
-      console.log("Add to cart:", { variantId, quantity });
-
-      // Temporary feedback
-      await new Promise((resolve) => setTimeout(resolve, 500));
-    } finally {
-      setIsAdding(false);
-    }
-  }, [variantId, quantity]);
+  const handleAddToCart = useCallback(() => {
+    startTransition(async () => {
+      await addItem(variantId, quantity);
+    });
+  }, [addItem, variantId, quantity]);
 
   if (!availableForSale) {
     return (
@@ -91,10 +85,10 @@ export function AddToCart({
       <button
         type="button"
         onClick={handleAddToCart}
-        disabled={isAdding}
+        disabled={isPending}
         className="w-full rounded-md bg-gold px-6 py-3 text-base font-semibold text-warm-white transition-colors hover:bg-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:opacity-60"
       >
-        {isAdding ? "Adding..." : "Add to Cart"}
+        {isPending ? "Adding..." : "Add to Cart"}
       </button>
     </div>
   );
