@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+*.pem
+.env
+.env*.local
+.vercel
+coverage
+*.tsbuildinfo
