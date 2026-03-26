@@ -1,16 +1,26 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProductByHandle, getProducts } from "@/lib/shopify";
+import {
+  getProductByHandle,
+  getProducts,
+  getProductRecommendations,
+  flattenConnection,
+} from "@/lib/shopify";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   buildProductSchema,
   buildBreadcrumbSchema,
 } from "@/lib/seo/structured-data";
+import { Container } from "@/components/ui/Container";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { ProductDetails } from "@/components/product/ProductDetails";
+import { ProductTabs } from "@/components/product/ProductTabs";
+import { ProductRecommendations } from "@/components/product/ProductRecommendations";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
 
 // ---------------------------------------------------------------------------
-// Static paths — pre-render all products at build time
+// Static paths
 // ---------------------------------------------------------------------------
 
 export async function generateStaticParams() {
@@ -18,7 +28,6 @@ export async function generateStaticParams() {
     const { products } = await getProducts({ first: 250 });
     return products.map((p) => ({ handle: p.handle }));
   } catch {
-    // Shopify credentials not available at build time — pages render on demand
     return [];
   }
 }
@@ -39,12 +48,9 @@ export async function generateMetadata({
     return { title: "Product Not Found" };
   }
 
-  // Prefer Shopify SEO fields; fall back to product title/description
   const title = product.seo.title ?? `${product.title} | Dalify`;
   const description =
-    product.seo.description ??
-    `${product.description.slice(0, 155)}…`;
-
+    product.seo.description ?? `${product.description.slice(0, 155)}…`;
   const canonicalUrl = `${SITE_URL}/products/${handle}`;
   const ogImage = product.featuredImage?.url;
 
@@ -84,6 +90,18 @@ export default async function ProductPage({
     notFound();
   }
 
+  const images = flattenConnection(product.images);
+  const variants = flattenConnection(product.variants);
+
+  // Fetch recommendations in parallel (non-blocking)
+  let recommendations: Awaited<ReturnType<typeof getProductRecommendations>> =
+    [];
+  try {
+    recommendations = await getProductRecommendations(product.id);
+  } catch {
+    // Recommendations are non-critical — degrade gracefully
+  }
+
   const productSchema = buildProductSchema(product);
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", url: SITE_URL },
@@ -95,11 +113,43 @@ export default async function ProductPage({
     <>
       <JsonLd data={productSchema} />
       <JsonLd data={breadcrumbSchema} />
-      {/* Product UI — to be implemented by FrontendDeveloper */}
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="font-heading text-3xl">{product.title}</h1>
-        <p className="mt-4 text-gray-600">{product.description}</p>
-      </div>
+
+      <Container className="py-8 sm:py-12">
+        {/* Breadcrumb */}
+        <div className="mb-6">
+          <Breadcrumb
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Products", href: "/collections/all" },
+              { label: product.title },
+            ]}
+          />
+        </div>
+
+        {/* Product hero: gallery + info */}
+        <ProductDetails
+          title={product.title}
+          vendor={product.vendor}
+          images={images}
+          variants={variants}
+          availableForSale={product.availableForSale}
+        />
+
+        {/* Tabs: description, details, shipping */}
+        <div className="mt-12">
+          <ProductTabs
+            descriptionHtml={product.descriptionHtml}
+            vendor={product.vendor}
+            productType={product.productType}
+            tags={product.tags}
+          />
+        </div>
+
+        {/* Recommendations */}
+        <div className="mt-12">
+          <ProductRecommendations products={recommendations} />
+        </div>
+      </Container>
     </>
   );
 }
