@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/*
+ * Dalify Design Tokens
+ * Earth-tone palette for an elegant, high-end organic food brand.
+ */
+
+@theme {
+  /* -- Colors -- */
+  --color-cream: #faf7f2;
+  --color-cream-dark: #f0ebe3;
+  --color-warm-white: #fefcf9;
+  --color-charcoal: #2c2c2c;
+  --color-charcoal-light: #4a4a4a;
+  --color-charcoal-muted: #6b6b6b;
+  --color-green: #4a6741;
+  --color-green-light: #6b8c62;
+  --color-green-muted: #e8efe6;
+  --color-gold: #b8963e;
+  --color-gold-light: #d4b668;
+  --color-gold-muted: #f5f0e3;
+  --color-terracotta: #c47d5a;
+  --color-terracotta-light: #d9a084;
+  --color-sand: #d4c5a9;
+  --color-sand-light: #e8ddc8;
+  --color-error: #c0392b;
+  --color-success: #27ae60;
+
+  /* -- Typography -- */
+  --font-heading: "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* -- Spacing scale -- */
+  --spacing-section: 6rem;
+  --spacing-section-sm: 4rem;
+
+  /* -- Border radius -- */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  /* -- Shadows -- */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* -- Base styles -- */
+body {
+  font-family: var(--font-body);
+  color: var(--color-charcoal);
+  background-color: var(--color-warm-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
