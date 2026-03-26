@@ -52,7 +52,7 @@ export const MAIN_NAV: ReadonlyArray<NavItem> = [
       { label: "Meal Mixes", href: "/collections/meal-mixes" },
     ],
   },
-  { label: "About", href: "/pages/about" },
+  { label: "About", href: "/about" },
 ] as const;
 
 export const FOOTER_NAV = {
@@ -64,9 +64,9 @@ export const FOOTER_NAV = {
     { label: "Instant Mixes", href: "/collections/instant-mixes" },
   ],
   company: [
-    { label: "About Us", href: "/pages/about" },
-    { label: "Contact", href: "/pages/contact" },
-    { label: "FAQ", href: "/pages/faq" },
+    { label: "About Us", href: "/about" },
+    { label: "Contact", href: "/contact" },
+    { label: "FAQ", href: "/faq" },
   ],
   legal: [
     { label: "Privacy Policy", href: "/pages/privacy-policy" },

@@ -9,20 +9,20 @@ export const metadata: Metadata = {
   description:
     "Common questions about Dalify organic spices, grains, and pulses. " +
     "Shipping, FSSAI certification, returns, and more — answered here.",
-  alternates: { canonical: `${SITE_URL}/pages/faq` },
+  alternates: { canonical: `${SITE_URL}/faq` },
   openGraph: {
     title: "FAQ — Organic Food Questions Answered | Dalify",
     description:
       "Common questions about Dalify organic spices, grains, and pulses. " +
       "Shipping, FSSAI certification, returns, and more — answered here.",
-    url: `${SITE_URL}/pages/faq`,
+    url: `${SITE_URL}/faq`,
   },
 };
 
 export default function FaqPage() {
   const breadcrumb = buildBreadcrumbSchema([
     { name: "Home", url: SITE_URL },
-    { name: "FAQ", url: `${SITE_URL}/pages/faq` },
+    { name: "FAQ", url: `${SITE_URL}/faq` },
   ]);
 
   return (

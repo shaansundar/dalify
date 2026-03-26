@@ -11,19 +11,19 @@ const STATIC_PAGES: MetadataRoute.Sitemap = [
     priority: 1,
   },
   {
-    url: `${SITE_URL}/pages/about`,
+    url: `${SITE_URL}/about`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.6,
   },
   {
-    url: `${SITE_URL}/pages/faq`,
+    url: `${SITE_URL}/faq`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.5,
   },
   {
-    url: `${SITE_URL}/pages/contact`,
+    url: `${SITE_URL}/contact`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.5,

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "./ProductCard";
 
@@ -53,7 +54,7 @@ export function ProductHighlights() {
               Our most loved farm-fresh staples.
             </p>
           </div>
-          <a
+          <Link
             href="/collections/all"
             className="hidden text-sm font-medium text-green transition-colors hover:text-green-light sm:inline-flex sm:items-center"
           >
@@ -72,7 +73,7 @@ export function ProductHighlights() {
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </Container>
 

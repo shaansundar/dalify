@@ -9,20 +9,20 @@ export const metadata: Metadata = {
   description:
     "Learn about Dalify — our mission to bring FSSAI-certified organic spices, grains, " +
     "and pulses directly from Indian farms to your kitchen. No middlemen, no additives.",
-  alternates: { canonical: `${SITE_URL}/pages/about` },
+  alternates: { canonical: `${SITE_URL}/about` },
   openGraph: {
     title: "About Dalify — Certified Organic Food, Straight from Indian Farms",
     description:
       "Learn about Dalify — our mission to bring FSSAI-certified organic spices, grains, " +
       "and pulses directly from Indian farms to your kitchen. No middlemen, no additives.",
-    url: `${SITE_URL}/pages/about`,
+    url: `${SITE_URL}/about`,
   },
 };
 
 export default function AboutPage() {
   const breadcrumb = buildBreadcrumbSchema([
     { name: "Home", url: SITE_URL },
-    { name: "About", url: `${SITE_URL}/pages/about` },
+    { name: "About", url: `${SITE_URL}/about` },
   ]);
 
   return (

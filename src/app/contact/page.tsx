@@ -9,20 +9,20 @@ export const metadata: Metadata = {
   description:
     "Reach out to Dalify for order support, bulk inquiries, or partnership opportunities. " +
     "We respond within 24 hours.",
-  alternates: { canonical: `${SITE_URL}/pages/contact` },
+  alternates: { canonical: `${SITE_URL}/contact` },
   openGraph: {
     title: "Contact Dalify — Get in Touch | Organic Food Support",
     description:
       "Reach out to Dalify for order support, bulk inquiries, or partnership opportunities. " +
       "We respond within 24 hours.",
-    url: `${SITE_URL}/pages/contact`,
+    url: `${SITE_URL}/contact`,
   },
 };
 
 export default function ContactPage() {
   const breadcrumb = buildBreadcrumbSchema([
     { name: "Home", url: SITE_URL },
-    { name: "Contact", url: `${SITE_URL}/pages/contact` },
+    { name: "Contact", url: `${SITE_URL}/contact` },
   ]);
 
   return (

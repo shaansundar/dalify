@@ -37,7 +37,7 @@ export function Hero() {
               Shop All Products
             </Link>
             <Link
-              href="/pages/about"
+              href="/about"
               className="inline-flex items-center rounded-md border border-charcoal px-7 py-3 text-base font-medium text-charcoal transition-colors duration-150 hover:bg-cream-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2"
             >
               Our Story
