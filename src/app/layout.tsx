@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "@/styles/globals.css";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { NavigationShell } from "@/components/layout/NavigationShell";
+import { Footer } from "@/components/layout/Footer";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -41,8 +44,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="bg-warm-white text-charcoal font-body antialiased">
-        {/* AnnouncementBar, Header, and Footer will be added by FrontendDeveloper */}
+        <AnnouncementBar />
+        <NavigationShell />
         <main className="min-h-screen">{children}</main>
+        <Footer />
       </body>
     </html>
   );
