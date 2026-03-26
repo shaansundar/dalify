@@ -6,6 +6,8 @@ import { NavigationShell } from "@/components/layout/NavigationShell";
 import { Footer } from "@/components/layout/Footer";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { MetaPixel } from "@/components/analytics/MetaPixel";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -45,6 +47,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+      <head>
+        <GoogleAnalytics />
+        <MetaPixel />
+      </head>
       <body className="bg-warm-white text-charcoal font-body antialiased">
         <CartProvider>
           <AnnouncementBar />
