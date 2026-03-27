@@ -6,9 +6,9 @@ import { buildBreadcrumbSchema } from "@/lib/seo/structured-data";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
 
 export const metadata: Metadata = {
-  title: "Shipping Policy",
+  title: "Shipping Policy — Delivery Timelines & Charges",
   description:
-    "Dalify shipping policy — delivery timelines, shipping charges, tracking, and COD information.",
+    "Dalify shipping policy — free delivery on orders above ₹499, delivery timelines by city, order tracking, and Cash on Delivery info.",
   alternates: { canonical: `${SITE_URL}/policies/shipping` },
 };
 

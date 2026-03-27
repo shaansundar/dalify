@@ -6,9 +6,9 @@ import { buildBreadcrumbSchema } from "@/lib/seo/structured-data";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
+  title: "Terms of Service — User Agreement",
   description:
-    "Dalify terms of service — the agreement governing your use of dalify.in.",
+    "Dalify terms of service — the agreement governing your use of dalify.in, purchases, returns, and account access.",
   alternates: { canonical: `${SITE_URL}/policies/terms` },
 };
 

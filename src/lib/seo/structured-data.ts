@@ -145,6 +145,30 @@ export function buildCollectionPageSchema(collection: CollectionLike) {
 }
 
 // ---------------------------------------------------------------------------
+// FAQPage
+// ---------------------------------------------------------------------------
+
+interface FAQItem {
+  readonly question: string;
+  readonly answer: string;
+}
+
+export function buildFAQSchema(items: ReadonlyArray<FAQItem>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+// ---------------------------------------------------------------------------
 // BreadcrumbList
 // ---------------------------------------------------------------------------
 

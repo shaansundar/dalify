@@ -28,10 +28,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in",
   ),
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "Dalify",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@dalify_in",
   },
 };
 

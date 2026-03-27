@@ -6,9 +6,9 @@ import { buildBreadcrumbSchema } from "@/lib/seo/structured-data";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
 
 export const metadata: Metadata = {
-  title: "Refund & Return Policy",
+  title: "Refund & Return Policy — Easy 7-Day Returns",
   description:
-    "Dalify refund and return policy — how to return products and receive refunds.",
+    "Dalify refund and return policy — how to return organic food products and receive refunds within 5–7 business days.",
   alternates: { canonical: `${SITE_URL}/policies/refund` },
 };
 

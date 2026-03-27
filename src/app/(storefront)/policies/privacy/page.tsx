@@ -6,9 +6,9 @@ import { buildBreadcrumbSchema } from "@/lib/seo/structured-data";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy — How We Protect Your Data",
   description:
-    "Dalify privacy policy — how we collect, use, and protect your personal information.",
+    "Dalify privacy policy — how we collect, use, and protect your personal information when you shop organic food on dalify.in.",
   alternates: { canonical: `${SITE_URL}/policies/privacy` },
 };
 

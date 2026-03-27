@@ -10,6 +10,7 @@ import { SearchInput } from "@/components/search/SearchInput";
 export const metadata: Metadata = {
   title: "Search | Dalify",
   description: "Search our collection of premium organic Indian food products.",
+  robots: { index: false, follow: false },
 };
 
 export default async function SearchPage({

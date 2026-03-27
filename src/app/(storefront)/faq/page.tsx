@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildBreadcrumbSchema } from "@/lib/seo/structured-data";
+import { buildBreadcrumbSchema, buildFAQSchema } from "@/lib/seo/structured-data";
 import { FaqAccordion } from "@/components/faq/FaqAccordion";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
@@ -189,21 +189,11 @@ export default function FaqPage() {
     { name: "FAQ", url: `${SITE_URL}/faq` },
   ]);
 
-  // Build FAQ structured data for Google rich results
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: FAQ_SECTIONS.flatMap((section) =>
-      section.items.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer,
-        },
-      })),
+  const faqSchema = buildFAQSchema(
+    FAQ_SECTIONS.flatMap((section) =>
+      section.items.map((item) => ({ question: item.question, answer: item.answer })),
     ),
-  };
+  );
 
   return (
     <>
