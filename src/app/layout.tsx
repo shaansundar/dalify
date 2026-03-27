@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "@/styles/globals.css";
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
-import { NavigationShell } from "@/components/layout/NavigationShell";
-import { Footer } from "@/components/layout/Footer";
-import { CartProvider } from "@/components/cart/CartProvider";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { MetaPixel } from "@/components/analytics/MetaPixel";
 
@@ -52,13 +47,7 @@ export default function RootLayout({
         <MetaPixel />
       </head>
       <body className="bg-warm-white text-charcoal font-body antialiased">
-        <CartProvider>
-          <AnnouncementBar />
-          <NavigationShell />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <CartDrawer />
-        </CartProvider>
+        {children}
       </body>
     </html>
   );
