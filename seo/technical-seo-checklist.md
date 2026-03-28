@@ -157,4 +157,25 @@ Dawn theme and Shopify core handle the following automatically. Verify each is n
 
 ---
 
-*Last updated: 2026-03-26 | For Dalify Shopify (Dawn theme)*
+## 13. Pre-Launch Static Asset Checklist (Next.js — Action Required)
+
+The following static files are **referenced in code but do not yet exist** in `/public/`. They must be created before launch.
+
+| File | Size | Purpose | Status |
+|------|------|---------|--------|
+| `/public/favicon.ico` | 32×32 px | Browser tab icon (legacy) | ⚠️ Missing |
+| `/public/icon.svg` | Scalable | Browser tab icon (modern, auto-scales) | ⚠️ Missing |
+| `/public/icon-192.png` | 192×192 px | Android home screen / PWA icon | ⚠️ Missing |
+| `/public/icon-512.png` | 512×512 px | Android splash / PWA icon | ⚠️ Missing |
+| `/public/apple-icon.png` | 180×180 px | iOS "Add to Home Screen" icon | ⚠️ Missing |
+| `/public/og-home.jpg` | 1200×630 px | Open Graph image for homepage shares on WhatsApp, Twitter, LinkedIn | ⚠️ Missing |
+
+### Notes
+
+- **OG image (`og-home.jpg`)**: Referenced in `src/app/(storefront)/page.tsx` for Open Graph and Twitter card. Without it, WhatsApp/social shares will show no image. Create a 1200×630 px branded image featuring the Dalify logo, hero product photography, and tagline. Export as JPEG (< 300 KB).
+- **Favicon/icon files**: Referenced in `src/app/layout.tsx` `icons` metadata block. Without them, browsers will show a blank tab icon and iOS bookmarks will have no icon.
+- **Recommended workflow**: Export all icon sizes from Figma using the Dalify logo mark on a `#2D6A4F` (green) background. Use [RealFaviconGenerator](https://realfavicongenerator.net) to generate the full favicon set from a 512×512 PNG source.
+
+---
+
+*Last updated: 2026-03-28 | For Dalify Next.js storefront*
