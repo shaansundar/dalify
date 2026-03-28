@@ -169,6 +169,28 @@ export function buildFAQSchema(items: ReadonlyArray<FAQItem>) {
 }
 
 // ---------------------------------------------------------------------------
+// AboutPage
+// ---------------------------------------------------------------------------
+
+export function buildAboutPageSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About Dalify",
+    url: `${SITE_URL}/about`,
+    description:
+      "Dalify is an Indian D2C organic food brand bringing FSSAI-certified " +
+      "organic spices, grains, pulses, and instant mixes directly from certified farms to consumers.",
+    publisher: {
+      "@type": "Organization",
+      name: BRAND_NAME,
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
 // BreadcrumbList
 // ---------------------------------------------------------------------------
 
