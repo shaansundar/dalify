@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description:
     "Dalify refund and return policy — how to return organic food products and receive refunds within 5–7 business days.",
   alternates: { canonical: `${SITE_URL}/policies/refund` },
+  openGraph: {
+    title: "Refund & Return Policy — Easy 7-Day Returns | Dalify",
+    description:
+      "Dalify refund and return policy — how to return organic food products and receive refunds within 5–7 business days.",
+    url: `${SITE_URL}/policies/refund`,
+  },
 };
 
 export default function RefundPolicyPage() {

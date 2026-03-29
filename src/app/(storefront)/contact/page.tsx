@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildBreadcrumbSchema } from "@/lib/seo/structured-data";
+import { buildBreadcrumbSchema, buildContactPageSchema } from "@/lib/seo/structured-data";
 import { ContactForm } from "@/components/contact/ContactForm";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
@@ -32,6 +32,7 @@ export default function ContactPage() {
   return (
     <>
       <JsonLd data={breadcrumb} />
+      <JsonLd data={buildContactPageSchema()} />
       <Container className="py-12 md:py-16">
         <Breadcrumb
           items={[{ label: "Home", href: "/" }, { label: "Contact" }]}

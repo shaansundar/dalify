@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description:
     "Dalify privacy policy — how we collect, use, and protect your personal information when you shop organic food on dalify.in.",
   alternates: { canonical: `${SITE_URL}/policies/privacy` },
+  openGraph: {
+    title: "Privacy Policy — How We Protect Your Data | Dalify",
+    description:
+      "Dalify privacy policy — how we collect, use, and protect your personal information when you shop organic food on dalify.in.",
+    url: `${SITE_URL}/policies/privacy`,
+  },
 };
 
 export default function PrivacyPolicyPage() {

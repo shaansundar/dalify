@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description:
     "Dalify shipping policy — free delivery on orders above ₹499, delivery timelines by city, order tracking, and Cash on Delivery info.",
   alternates: { canonical: `${SITE_URL}/policies/shipping` },
+  openGraph: {
+    title: "Shipping Policy — Delivery Timelines & Charges | Dalify",
+    description:
+      "Dalify shipping policy — free delivery on orders above ₹499, delivery timelines by city, order tracking, and Cash on Delivery info.",
+    url: `${SITE_URL}/policies/shipping`,
+  },
 };
 
 export default function ShippingPolicyPage() {

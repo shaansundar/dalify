@@ -191,6 +191,49 @@ export function buildAboutPageSchema() {
 }
 
 // ---------------------------------------------------------------------------
+// ContactPage
+// ---------------------------------------------------------------------------
+
+export function buildContactPageSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact Dalify",
+    url: `${SITE_URL}/contact`,
+    description:
+      "Contact Dalify for order support, bulk inquiries, or partnership opportunities. " +
+      "We respond within 24 hours.",
+    mainEntity: {
+      "@type": "Organization",
+      name: BRAND_NAME,
+      url: SITE_URL,
+      email: "support@dalify.in",
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "support@dalify.in",
+          availableLanguage: ["English", "Hindi"],
+          hoursAvailable: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+            ],
+            opens: "09:00",
+            closes: "18:00",
+          },
+        },
+      ],
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
 // BreadcrumbList
 // ---------------------------------------------------------------------------
 

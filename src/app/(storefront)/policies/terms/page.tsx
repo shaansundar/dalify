@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description:
     "Dalify terms of service — the agreement governing your use of dalify.in, purchases, returns, and account access.",
   alternates: { canonical: `${SITE_URL}/policies/terms` },
+  openGraph: {
+    title: "Terms of Service — User Agreement | Dalify",
+    description:
+      "Dalify terms of service — the agreement governing your use of dalify.in, purchases, returns, and account access.",
+    url: `${SITE_URL}/policies/terms`,
+  },
 };
 
 export default function TermsPage() {
