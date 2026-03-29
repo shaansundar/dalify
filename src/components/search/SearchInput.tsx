@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils/format-price";
+import { trackSearch } from "@/lib/analytics";
 
 interface PredictiveProduct {
   readonly handle: string;
@@ -87,9 +88,11 @@ export function SearchInput({ initialQuery = "" }: SearchInputProps) {
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      if (query.trim().length < 2) return;
+      const trimmed = query.trim();
+      if (trimmed.length < 2) return;
       setShowPredictions(false);
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+      trackSearch(trimmed);
+      router.push(`/search?q=${encodeURIComponent(trimmed)}`);
     },
     [router, query],
   );

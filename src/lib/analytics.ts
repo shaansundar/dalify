@@ -113,6 +113,43 @@ export function trackBeginCheckout(
   });
 }
 
+interface OrderItem extends ProductItem {
+  readonly orderId: string;
+}
+
+/** GA4: purchase — Meta: Purchase (primary conversion event) */
+export function trackPurchase(
+  orderId: string,
+  value: number,
+  currency: string = "INR",
+  items: ReadonlyArray<ProductItem> = [],
+): void {
+  window.gtag?.("event", "purchase", {
+    transaction_id: orderId,
+    currency,
+    value,
+    items: items.map((item) => ({
+      item_id: item.id,
+      item_name: item.name,
+      price: item.price,
+      item_variant: item.variant,
+      item_category: item.category,
+      quantity: item.quantity ?? 1,
+    })),
+  });
+
+  window.fbq?.("track", "Purchase", {
+    value,
+    currency,
+    content_ids: items.map((item) => item.id),
+    content_type: "product",
+    num_items: items.reduce((sum, item) => sum + (item.quantity ?? 1), 0),
+  });
+}
+
+// Re-export OrderItem for consumers that need it
+export type { OrderItem };
+
 /** GA4: search — Meta: Search */
 export function trackSearch(searchTerm: string): void {
   window.gtag?.("event", "search", {

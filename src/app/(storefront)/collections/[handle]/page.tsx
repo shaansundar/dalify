@@ -17,6 +17,7 @@ import {
 import { FilterSidebar } from "@/components/collection/FilterSidebar";
 import { ActiveFilters } from "@/components/collection/ActiveFilters";
 import { LoadMoreButton } from "@/components/collection/LoadMoreButton";
+import { CollectionAnalyticsTracker } from "@/components/collection/CollectionAnalyticsTracker";
 import type { Product } from "@/lib/shopify/types";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
@@ -181,6 +182,16 @@ export default async function CollectionPage({
         </Suspense>
 
         {/* Product grid */}
+        <CollectionAnalyticsTracker
+          collectionName={collection.title}
+          products={products.map((p) => ({
+            id: p.id,
+            name: p.title,
+            price: parseFloat(p.priceRange.minVariantPrice.amount),
+            currency: p.priceRange.minVariantPrice.currencyCode,
+            category: p.productType,
+          }))}
+        />
         <ProductGrid products={products} />
 
         {/* Pagination */}

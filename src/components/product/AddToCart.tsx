@@ -2,17 +2,28 @@
 
 import { useState, useCallback, useTransition } from "react";
 import { useCart } from "@/components/cart/CartProvider";
+import { trackAddToCart } from "@/lib/analytics";
 
 interface AddToCartProps {
   readonly variantId: string;
   readonly availableForSale: boolean;
   readonly quantityAvailable: number | null;
+  readonly productId?: string;
+  readonly productName?: string;
+  readonly price?: number;
+  readonly currency?: string;
+  readonly category?: string;
 }
 
 export function AddToCart({
   variantId,
   availableForSale,
   quantityAvailable,
+  productId,
+  productName,
+  price,
+  currency,
+  category,
 }: AddToCartProps) {
   const [quantity, setQuantity] = useState(1);
   const [isPending, startTransition] = useTransition();
@@ -24,7 +35,17 @@ export function AddToCart({
     startTransition(async () => {
       await addItem(variantId, quantity);
     });
-  }, [addItem, variantId, quantity]);
+    if (productId && productName && price !== undefined) {
+      trackAddToCart({
+        id: productId,
+        name: productName,
+        price,
+        currency,
+        category,
+        quantity,
+      });
+    }
+  }, [addItem, variantId, quantity, productId, productName, price, currency, category]);
 
   if (!availableForSale) {
     return (

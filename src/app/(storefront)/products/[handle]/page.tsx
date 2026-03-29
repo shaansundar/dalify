@@ -133,6 +133,8 @@ export default async function ProductPage({
           images={images}
           variants={variants}
           availableForSale={product.availableForSale}
+          productId={product.id}
+          productType={product.productType}
         />
 
         {/* Tabs: description, details, shipping */}

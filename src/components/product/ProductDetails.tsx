@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type { ShopifyImage, ProductVariant } from "@/lib/shopify/types";
 import { ImageGallery } from "./ImageGallery";
 import { VariantSelector } from "./VariantSelector";
 import { AddToCart } from "./AddToCart";
 import { Badge } from "@/components/ui/Badge";
+import { trackViewProduct } from "@/lib/analytics";
 
 interface ProductDetailsProps {
   readonly title: string;
@@ -13,6 +14,8 @@ interface ProductDetailsProps {
   readonly images: ReadonlyArray<ShopifyImage>;
   readonly variants: ReadonlyArray<ProductVariant>;
   readonly availableForSale: boolean;
+  readonly productId: string;
+  readonly productType?: string;
 }
 
 export function ProductDetails({
@@ -21,6 +24,8 @@ export function ProductDetails({
   images,
   variants,
   availableForSale,
+  productId,
+  productType,
 }: ProductDetailsProps) {
   const [selectedVariantId, setSelectedVariantId] = useState(
     variants[0]?.id ?? "",
@@ -30,6 +35,22 @@ export function ProductDetails({
     () => variants.find((v) => v.id === selectedVariantId) ?? variants[0],
     [variants, selectedVariantId],
   );
+
+  // Fire view_item / ViewContent once on mount
+  useEffect(() => {
+    const price = selectedVariant
+      ? parseFloat(selectedVariant.price.amount)
+      : 0;
+    const currency = selectedVariant?.price.currencyCode ?? "INR";
+    trackViewProduct({
+      id: productId,
+      name: title,
+      price,
+      currency,
+      category: productType,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // If selected variant has a specific image, show it first
   const orderedImages = useMemo(() => {
@@ -89,6 +110,15 @@ export function ProductDetails({
             selectedVariant?.availableForSale ?? availableForSale
           }
           quantityAvailable={selectedVariant?.quantityAvailable ?? null}
+          productId={productId}
+          productName={title}
+          price={
+            selectedVariant
+              ? parseFloat(selectedVariant.price.amount)
+              : undefined
+          }
+          currency={selectedVariant?.price.currencyCode}
+          category={productType}
         />
       </div>
     </div>
