@@ -116,6 +116,7 @@ export function buildProductSchema(product: ProductLike) {
       availability: inStock
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
       seller: {
         "@type": "Organization",
         name: BRAND_NAME,

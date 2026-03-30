@@ -169,12 +169,14 @@ The following static files are **referenced in code but do not yet exist** in `/
 | `/public/icon-192.png` | 192×192 px | Android home screen / PWA icon | ⚠️ Missing |
 | `/public/icon-512.png` | 512×512 px | Android splash / PWA icon | ⚠️ Missing |
 | `/public/apple-icon.png` | 180×180 px | iOS "Add to Home Screen" icon | ⚠️ Missing |
+| `/public/logo.png` | 512×512 px min | Organization schema `logo` field — referenced in structured data (homepage, about, contact); used by Google Knowledge Panel | ⚠️ Missing |
 | `/public/og-home.jpg` | 1200×630 px | ~~Replaced by dynamic `src/app/(storefront)/opengraph-image.tsx` — no longer needed~~ | ✅ N/A |
 
 ### Notes
 
 - **OG image**: Replaced by server-generated `src/app/(storefront)/opengraph-image.tsx` (Next.js file-based OG convention). Dynamic images are generated at edge runtime — no static file needed.
 - **Favicon/icon files**: Referenced in `src/app/layout.tsx` `icons` metadata block. Without them, browsers will show a blank tab icon and iOS bookmarks will have no icon.
+- **`logo.png`**: Referenced in `src/lib/seo/structured-data.ts` (`buildOrganizationSchema`, `buildAboutPageSchema`). A missing logo means Google's rich results parser receives a 404 for the logo URL, which may suppress the Knowledge Panel logo. Use the same 512×512 source as the PWA icons — export as a square PNG on white or transparent background.
 - **Recommended workflow**: Export all icon sizes from Figma using the Dalify logo mark on a `#2D6A4F` (green) background. Use [RealFaviconGenerator](https://realfavicongenerator.net) to generate the full favicon set from a 512×512 PNG source.
 
 ---
