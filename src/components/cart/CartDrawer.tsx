@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "./CartProvider";
 import { flattenConnection } from "@/lib/shopify";
 import { formatPrice } from "@/lib/utils/format-price";
+import { trackBeginCheckout } from "@/lib/analytics";
 
 export function CartDrawer() {
   const { cart, isDrawerOpen, closeDrawer, updateItem, removeItem } =
@@ -207,6 +208,12 @@ export function CartDrawer() {
             </p>
             <a
               href={cart.checkoutUrl}
+              onClick={() =>
+                trackBeginCheckout(
+                  parseFloat(cart.cost.subtotalAmount.amount),
+                  cart.cost.subtotalAmount.currencyCode,
+                )
+              }
               className="block w-full rounded-md bg-gold px-6 py-3 text-center text-base font-semibold text-warm-white transition-colors hover:bg-gold-light"
             >
               Checkout

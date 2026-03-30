@@ -124,6 +124,7 @@
 | 10.4 | Meta Pixel installed and firing `PageView`, `ViewContent`, `AddToCart`, `Purchase` (see `meta-pixel-setup-guide.md`) | Meta Events Manager → Test Events tab | ☐ |
 | 10.5 | Conversions API enabled (server-side redundancy for iOS 14+ users) | Facebook & Instagram channel → Data sharing → CAPI toggle ON | ☐ |
 | 10.6 | Google Search Console property verified and sitemap submitted | GSC → Coverage → no critical errors | ☐ |
+| 10.7 | `purchase` event fires on order confirmation — **requires Shopify Customer Events API** (see note below) | GA4 DebugView → purchase event with `transaction_id` after test order | ☐ |
 
 ---
 
@@ -168,14 +169,63 @@ The following static files are **referenced in code but do not yet exist** in `/
 | `/public/icon-192.png` | 192×192 px | Android home screen / PWA icon | ⚠️ Missing |
 | `/public/icon-512.png` | 512×512 px | Android splash / PWA icon | ⚠️ Missing |
 | `/public/apple-icon.png` | 180×180 px | iOS "Add to Home Screen" icon | ⚠️ Missing |
-| `/public/og-home.jpg` | 1200×630 px | Open Graph image for homepage shares on WhatsApp, Twitter, LinkedIn | ⚠️ Missing |
+| `/public/og-home.jpg` | 1200×630 px | ~~Replaced by dynamic `src/app/(storefront)/opengraph-image.tsx` — no longer needed~~ | ✅ N/A |
 
 ### Notes
 
-- **OG image (`og-home.jpg`)**: Referenced in `src/app/(storefront)/page.tsx` for Open Graph and Twitter card. Without it, WhatsApp/social shares will show no image. Create a 1200×630 px branded image featuring the Dalify logo, hero product photography, and tagline. Export as JPEG (< 300 KB).
+- **OG image**: Replaced by server-generated `src/app/(storefront)/opengraph-image.tsx` (Next.js file-based OG convention). Dynamic images are generated at edge runtime — no static file needed.
 - **Favicon/icon files**: Referenced in `src/app/layout.tsx` `icons` metadata block. Without them, browsers will show a blank tab icon and iOS bookmarks will have no icon.
 - **Recommended workflow**: Export all icon sizes from Figma using the Dalify logo mark on a `#2D6A4F` (green) background. Use [RealFaviconGenerator](https://realfavicongenerator.net) to generate the full favicon set from a 512×512 PNG source.
 
 ---
 
-*Last updated: 2026-03-28 | For Dalify Next.js storefront*
+### Note on `purchase` event (item 10.7)
+
+Dalify uses Shopify's hosted checkout. After payment, the customer lands on Shopify's order confirmation page — not a Next.js route. The `trackPurchase()` helper in `src/lib/analytics.ts` is intentionally retained for future use but **cannot fire from within the Next.js app**.
+
+To fire `purchase` / `Purchase` on order confirmation, use **Shopify Customer Events** (the recommended approach for headless Shopify):
+
+1. Shopify Admin → **Settings** → **Customer events** → **Add custom pixel**
+2. Paste the following pixel script:
+
+```js
+analytics.subscribe("checkout_completed", (event) => {
+  const order = event.data.checkout;
+  const items = order.lineItems.map((line) => ({
+    item_id: line.variant?.product?.id ?? "",
+    item_name: line.title,
+    price: parseFloat(line.variant?.price?.amount ?? "0"),
+    quantity: line.quantity,
+  }));
+
+  // GA4
+  if (typeof gtag === "function") {
+    gtag("event", "purchase", {
+      transaction_id: order.order?.id ?? order.token,
+      value: parseFloat(order.totalPrice?.amount ?? "0"),
+      currency: order.totalPrice?.currencyCode ?? "INR",
+      items,
+    });
+  }
+
+  // Meta Pixel
+  if (typeof fbq === "function") {
+    fbq("track", "Purchase", {
+      value: parseFloat(order.totalPrice?.amount ?? "0"),
+      currency: order.totalPrice?.currencyCode ?? "INR",
+      content_ids: items.map((i) => i.item_id),
+      content_type: "product",
+      num_items: items.reduce((s, i) => s + i.quantity, 0),
+    });
+  }
+});
+```
+
+3. Save and publish the pixel.
+4. Place a test order and verify the `purchase` event appears in GA4 DebugView with correct `transaction_id` and `value`.
+
+**Alternative (lower effort):** Install Shopify's official **Google & YouTube** channel and **Facebook & Instagram** channel. Both channels auto-wire `purchase` / `Purchase` events natively through their own pixel injection without custom code.
+
+---
+
+*Last updated: 2026-03-30 | For Dalify Next.js storefront*
