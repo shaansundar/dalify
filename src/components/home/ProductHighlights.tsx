@@ -2,40 +2,28 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "./ProductCard";
 
-const PLACEHOLDER_PRODUCTS = [
-  {
-    title: "Organic Turmeric Powder",
-    handle: "organic-turmeric-powder",
-    price: "149.00",
-  },
-  {
-    title: "Premium Basmati Rice",
-    handle: "premium-basmati-rice-1kg",
-    price: "289.00",
-  },
-  {
-    title: "Toor Dal",
-    handle: "toor-dal-500g",
-    price: "129.00",
-  },
-  {
-    title: "Instant Dosa Mix",
-    handle: "instant-dosa-mix",
-    price: "99.00",
-  },
-  {
-    title: "Garam Masala",
-    handle: "garam-masala",
-    price: "179.00",
-  },
-  {
-    title: "Ragi Flour",
-    handle: "ragi-flour-500g",
-    price: "109.00",
-  },
-] as const;
+export interface ProductHighlightItem {
+  readonly title: string;
+  readonly handle: string;
+  readonly price: string;
+  readonly currencyCode?: string;
+  readonly imageSrc?: string;
+}
 
-export function ProductHighlights() {
+const FALLBACK_PRODUCTS: ReadonlyArray<ProductHighlightItem> = [
+  { title: "Organic Turmeric Powder", handle: "organic-turmeric-powder", price: "149.00" },
+  { title: "Premium Basmati Rice", handle: "premium-basmati-rice-1kg", price: "289.00" },
+  { title: "Toor Dal", handle: "toor-dal-500g", price: "129.00" },
+  { title: "Instant Dosa Mix", handle: "instant-dosa-mix", price: "99.00" },
+  { title: "Garam Masala", handle: "garam-masala", price: "179.00" },
+  { title: "Ragi Flour", handle: "ragi-flour-500g", price: "109.00" },
+];
+
+interface ProductHighlightsProps {
+  readonly products?: ReadonlyArray<ProductHighlightItem>;
+}
+
+export function ProductHighlights({ products = FALLBACK_PRODUCTS }: ProductHighlightsProps) {
   return (
     <section
       className="bg-cream py-section-sm md:py-section"
@@ -79,7 +67,7 @@ export function ProductHighlights() {
 
       <div className="mt-8 overflow-x-auto">
         <div className="flex snap-x snap-mandatory gap-5 px-4 pb-4 sm:px-6 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]">
-          {PLACEHOLDER_PRODUCTS.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product.handle} {...product} />
           ))}
         </div>

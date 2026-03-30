@@ -235,6 +235,28 @@ export function buildContactPageSchema() {
 }
 
 // ---------------------------------------------------------------------------
+// ItemList (homepage featured products)
+// ---------------------------------------------------------------------------
+
+interface ItemListEntry {
+  readonly name: string;
+  readonly url: string;
+}
+
+export function buildItemListSchema(items: ReadonlyArray<ItemListEntry>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+}
+
+// ---------------------------------------------------------------------------
 // BreadcrumbList
 // ---------------------------------------------------------------------------
 

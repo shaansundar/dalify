@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/home/Hero";
 import { FeaturedCollections } from "@/components/home/FeaturedCollections";
-import { ProductHighlights } from "@/components/home/ProductHighlights";
+import {
+  ProductHighlights,
+  type ProductHighlightItem,
+} from "@/components/home/ProductHighlights";
 import { ValuePropositions } from "@/components/home/ValuePropositions";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   buildWebSiteSchema,
   buildOrganizationSchema,
   buildBreadcrumbSchema,
+  buildItemListSchema,
 } from "@/lib/seo/structured-data";
+import { getProducts } from "@/lib/shopify";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dalify.in";
 
@@ -36,7 +41,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  let featuredProducts: ReadonlyArray<ProductHighlightItem> = [];
+
+  try {
+    const { products } = await getProducts({ first: 6 });
+    featuredProducts = products.map((p) => ({
+      title: p.title,
+      handle: p.handle,
+      price: p.priceRange.minVariantPrice.amount,
+      currencyCode: p.priceRange.minVariantPrice.currencyCode,
+      imageSrc: p.featuredImage?.url,
+    }));
+  } catch {
+    // Shopify credentials not set — fall back to placeholder UI
+  }
+
+  const itemListSchema =
+    featuredProducts.length > 0
+      ? buildItemListSchema(
+          featuredProducts.map((p) => ({
+            name: p.title,
+            url: `${SITE_URL}/products/${p.handle}`,
+          })),
+        )
+      : null;
+
   return (
     <>
       <JsonLd data={buildWebSiteSchema()} />
@@ -44,9 +74,10 @@ export default function HomePage() {
       <JsonLd
         data={buildBreadcrumbSchema([{ name: "Home", url: SITE_URL }])}
       />
+      {itemListSchema && <JsonLd data={itemListSchema} />}
       <Hero />
       <FeaturedCollections />
-      <ProductHighlights />
+      <ProductHighlights products={featuredProducts.length > 0 ? featuredProducts : undefined} />
       <ValuePropositions />
     </>
   );
