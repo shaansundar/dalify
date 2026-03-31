@@ -2,6 +2,7 @@
 
 import { useCallback, useTransition } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "./CartProvider";
 import { flattenConnection } from "@/lib/shopify";
 import { formatPrice } from "@/lib/utils/format-price";
@@ -102,17 +103,18 @@ export function CartDrawer() {
                   <Link
                     href={`/products/${line.merchandise.product.handle}`}
                     onClick={closeDrawer}
-                    className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md bg-cream-dark"
+                    className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md bg-cream-dark"
                   >
                     {line.merchandise.product.featuredImage ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
+                      <Image
                         src={line.merchandise.product.featuredImage.url}
                         alt={
                           line.merchandise.product.featuredImage.altText ??
                           line.merchandise.product.title
                         }
-                        className="h-full w-full object-cover"
+                        fill
+                        sizes="80px"
+                        className="object-cover"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-xs text-charcoal-muted">
