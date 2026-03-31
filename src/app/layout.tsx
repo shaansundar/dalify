@@ -50,6 +50,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@dalify_in",
   },
+  // GSC verification: replace with real code from Google Search Console
+  // verification: { google: "YOUR_VERIFICATION_CODE" },
 };
 
 export default function RootLayout({
