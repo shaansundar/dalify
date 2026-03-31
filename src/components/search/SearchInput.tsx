@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format-price";
 import { trackSearch } from "@/lib/analytics";
 
@@ -195,13 +196,14 @@ export function SearchInput({ initialQuery = "" }: SearchInputProps) {
                     : "hover:bg-cream"
                 }`}
               >
-                <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded bg-cream-dark">
+                <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded bg-cream-dark">
                   {product.featuredImage ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
+                    <Image
                       src={product.featuredImage.url}
                       alt={product.featuredImage.altText ?? product.title}
-                      className="h-full w-full object-cover"
+                      fill
+                      sizes="40px"
+                      className="object-cover"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center text-xs text-charcoal-muted">
