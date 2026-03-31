@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 
 interface CollectionHeaderProps {
@@ -44,12 +45,13 @@ export function CollectionHeader({
           </div>
 
           {imageUrl && (
-            <div className="hidden h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg md:block">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative hidden h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg md:block">
+              <Image
                 src={imageUrl}
                 alt={title}
-                className="h-full w-full object-cover"
+                fill
+                sizes="96px"
+                className="object-cover"
               />
             </div>
           )}

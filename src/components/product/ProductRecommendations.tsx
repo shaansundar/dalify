@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format-price";
 
 interface RecommendedProduct {
@@ -40,14 +41,14 @@ export function ProductRecommendations({
             href={`/products/${product.handle}`}
             className="group w-48 flex-shrink-0 snap-start"
           >
-            <div className="aspect-square overflow-hidden rounded-lg bg-cream-dark">
+            <div className="relative aspect-square overflow-hidden rounded-lg bg-cream-dark">
               {product.featuredImage ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
+                <Image
                   src={product.featuredImage.url}
                   alt={product.featuredImage.altText ?? product.title}
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
+                  fill
+                  sizes="192px"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">

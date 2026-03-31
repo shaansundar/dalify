@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format-price";
 
 interface ProductCardProps {
@@ -21,14 +22,14 @@ export function ProductCard({
   return (
     <div className="group w-[260px] flex-shrink-0 snap-start overflow-hidden rounded-lg bg-warm-white shadow-card transition-shadow duration-150 hover:shadow-card-hover sm:w-[280px]">
       <Link href={`/products/${handle}`} className="block">
-        <div className="aspect-square overflow-hidden bg-cream-dark">
+        <div className="relative aspect-square overflow-hidden bg-cream-dark">
           {imageSrc ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
+            <Image
               src={imageSrc}
               alt={imageAlt ?? title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
+              fill
+              sizes="(min-width: 640px) 280px, 260px"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">

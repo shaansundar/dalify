@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Image from "next/image";
 
 interface GalleryImage {
   readonly url: string;
@@ -39,13 +40,13 @@ export function ImageGallery({ images, productTitle }: ImageGalleryProps) {
     <div className="space-y-3">
       {/* Main image */}
       <div className="group relative aspect-square overflow-hidden rounded-lg bg-cream-dark">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={selectedImage.url}
           alt={selectedImage.altText ?? productTitle}
-          width={selectedImage.width}
-          height={selectedImage.height}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          fill
+          priority
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
       </div>
 
@@ -57,18 +58,19 @@ export function ImageGallery({ images, productTitle }: ImageGalleryProps) {
               key={image.url}
               type="button"
               onClick={() => handleThumbnailClick(index)}
-              className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border-2 transition-all ${
+              className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border-2 transition-all ${
                 index === selectedIndex
                   ? "border-green opacity-100"
                   : "border-transparent opacity-60 hover:opacity-100"
               }`}
               aria-label={`View image ${index + 1}`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={image.url}
                 alt={image.altText ?? `${productTitle} thumbnail ${index + 1}`}
-                className="h-full w-full object-cover"
+                fill
+                sizes="64px"
+                className="object-cover"
               />
             </button>
           ))}

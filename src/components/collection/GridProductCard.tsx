@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils/format-price";
 import { Badge } from "@/components/ui/Badge";
 
@@ -33,12 +34,12 @@ export function GridProductCard({
       <Link href={`/products/${handle}`} className="block">
         <div className="relative aspect-square overflow-hidden bg-cream-dark">
           {imageSrc ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
+            <Image
               src={imageSrc}
               alt={imageAlt ?? title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
+              fill
+              sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">
