@@ -21,7 +21,7 @@ Already live in `src/app/(storefront)/page.tsx` — `export const metadata` bloc
 
 ## 2. H1 / H2 Heading Structure
 
-The Dawn theme uses the homepage sections for visible headings. Recommended structure:
+The Next.js homepage uses these sections for visible headings. Recommended structure:
 
 ```
 H1: Pure Organic. Straight from the Source.
@@ -130,8 +130,9 @@ The following JSON-LD schemas are already implemented and live:
 - Logo: `alt="Dalify — Organic D2C Food Brand"`
 
 ### Page Speed Recommendations (Core Web Vitals)
-- Use WebP format for all homepage images (Dawn theme supports this natively).
-- Lazy-load below-the-fold product card images.
+- **AVIF/WebP automatic** — `next.config.ts` sets `formats: ["image/avif", "image/webp"]`; all product images from `cdn.shopify.com` are served in the optimal format automatically.
+- **Lazy loading** — `next/image` lazy-loads all images by default; only the main product gallery uses `priority` to preload the LCP image.
+- **All storefront `<img>` tags replaced** — `ImageGallery`, `GridProductCard`, `CollectionHeader`, `ProductRecommendations`, `ProductCard`, `CartDrawer`, and `SearchInput` all use `next/image` with responsive `sizes`.
 - Minimize homepage sections — 5–7 sections max to keep LCP fast.
 - Test with [PageSpeed Insights](https://pagespeed.web.dev) targeting >70 mobile score.
 

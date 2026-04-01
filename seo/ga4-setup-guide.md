@@ -1,8 +1,19 @@
-# GA4 Setup Guide for Dalify Shopify Store
+# GA4 Setup Guide for Dalify
 
 ## Overview
 
-This guide walks through setting up Google Analytics 4 (GA4) with enhanced e-commerce tracking on Dalify's Shopify store (Dawn theme). Follow these steps in order.
+This guide walks through setting up Google Analytics 4 (GA4) with enhanced e-commerce tracking on Dalify's storefront. Follow these steps in order.
+
+### Architecture: Two-Layer Tracking
+
+Dalify's checkout is Shopify-hosted. GA4 tracking is split across two systems:
+
+| Layer | What it covers | How it's implemented |
+|-------|---------------|---------------------|
+| **Next.js storefront** | All storefront pages: product views, add-to-cart, begin-checkout, search | `src/lib/analytics.ts` — fires when `NEXT_PUBLIC_GA_MEASUREMENT_ID` env var is set |
+| **Shopify checkout** | Checkout pages + order confirmation (`purchase` event) | Shopify's Google & YouTube channel (this guide, Parts 1–2) |
+
+**Both layers are required.** The Next.js analytics module fires `view_item`, `add_to_cart`, `begin_checkout`, and `search`. The Shopify-native channel fires `purchase` on the order confirmation page. Do not rely solely on the Shopify channel for storefront events.
 
 ---
 
@@ -39,15 +50,13 @@ Shopify's native Google & YouTube channel handles GA4 without Google Tag Manager
 
 ### Option B: Google Tag Manager (Advanced — More Control)
 
-Use this if you need custom events or data layer manipulation.
+Use this if you need custom events or data layer manipulation beyond what the native app provides.
 
 1. Create a GTM account at [tagmanager.google.com](https://tagmanager.google.com).
 2. Create a new container (Web) named `Dalify`.
 3. Copy the GTM container snippet (head + body).
-4. In Shopify Admin → **Online Store** → **Themes** → **Edit code**.
-5. Open `layout/theme.liquid`.
-6. Paste the GTM head snippet inside `<head>` (after `<head>` tag).
-7. Paste the GTM body snippet immediately after `<body>`.
+4. In `src/app/layout.tsx`, add the GTM head snippet inside the `<head>` section using Next.js `<Script>` component with `strategy="afterInteractive"`.
+5. Add the GTM `<noscript>` body snippet immediately after the `<body>` opening tag.
 8. In GTM, create a **GA4 Configuration tag**:
    - Tag type: Google Analytics: GA4 Configuration
    - Measurement ID: your `G-XXXXXXXXXX`
@@ -167,4 +176,4 @@ Export these audiences to Google Ads for remarketing campaigns.
 
 ---
 
-*Last updated: 2026-03-25 | For Dalify Shopify (Dawn theme)*
+*Last updated: 2026-04-01 | For Dalify Next.js 15 storefront + Shopify checkout*

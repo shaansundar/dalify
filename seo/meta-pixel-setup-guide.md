@@ -1,8 +1,19 @@
-# Meta Pixel Setup Guide for Dalify Shopify Store
+# Meta Pixel Setup Guide for Dalify
 
 ## Overview
 
 This guide covers installing Meta Pixel (formerly Facebook Pixel) on Dalify's Shopify store to track conversions and enable Meta ad retargeting. Estimated setup time: 30–45 minutes.
+
+### Architecture: Two-Layer Tracking
+
+Dalify's checkout is Shopify-hosted. This means pixel tracking is split across two systems:
+
+| Layer | What it covers | How it's implemented |
+|-------|---------------|---------------------|
+| **Next.js storefront** | All storefront pages: product views, add-to-cart, begin-checkout, search | `src/components/analytics/MetaPixel.tsx` + `src/lib/analytics.ts` — fires when `NEXT_PUBLIC_META_PIXEL_ID` env var is set |
+| **Shopify checkout** | Checkout pages + order confirmation (`Purchase` event) | Shopify's Facebook & Instagram channel (this guide, Parts 1–3) |
+
+**Both layers are required.** The Next.js pixel fires `ViewContent`, `AddToCart`, `InitiateCheckout`, and `Search`. The Shopify-native channel fires `Purchase` (and deduplicates it server-side via Conversions API). Do not remove the `MetaPixel.tsx` component when setting up the Shopify channel — they cover different parts of the funnel.
 
 ---
 
@@ -182,4 +193,4 @@ This is configured in Events Manager → **Aggregated Event Measurement** (see P
 
 ---
 
-*Last updated: 2026-03-25 | For Dalify Shopify (Dawn theme)*
+*Last updated: 2026-03-31 | For Dalify Next.js 15 storefront + Shopify checkout*

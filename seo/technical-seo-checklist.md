@@ -1,7 +1,7 @@
 # Dalify — Technical SEO Checklist
-## Shopify (Dawn Theme) — Pre-Launch & Ongoing
+## Next.js 15 Storefront + Shopify Checkout — Pre-Launch & Ongoing
 
-**Scope:** Covers all built-in Shopify SEO features + gaps to supplement manually.
+**Scope:** Covers built-in Next.js and Shopify SEO features + gaps to supplement manually.
 **Standard:** All items must pass before submitting sitemap to Google Search Console.
 
 ---
@@ -47,10 +47,10 @@
 
 | # | Check | How to Verify | Status |
 |---|-------|---------------|--------|
-| 4.1 | `Product` schema present on all product pages (Dawn outputs this natively) | Google Rich Results Test on 3+ product URLs — confirm `Product` detected | ☐ |
+| 4.1 | `Product` schema present on all product pages (`buildProductSchema()` in `src/lib/seo/structured-data.ts`) | Google Rich Results Test on 3+ product URLs — confirm `Product` detected | ☐ |
 | 4.2 | `Product` schema includes `name`, `description`, `image`, `brand`, `offers` (price + currency + availability) | Rich Results Test detail panel | ☐ |
-| 4.3 | `BreadcrumbList` schema present on product and collection pages (Dawn default) | Rich Results Test — confirm breadcrumbs detected | ☐ |
-| 4.4 | `Organization` JSON-LD added to `layout/theme.liquid` (see `homepage-seo-optimization.md` §5) | View page source → search for `"@type":"Organization"` | ☐ |
+| 4.3 | `BreadcrumbList` schema present on product and collection pages (`buildBreadcrumbSchema()`) | Rich Results Test — confirm breadcrumbs detected | ☐ |
+| 4.4 | `Organization` JSON-LD injected via `buildOrganizationSchema()` on homepage (see `homepage-seo-optimization.md` §5) | View page source → search for `"@type":"Organization"` | ☐ |
 | 4.5 | `WebSite` schema with `SearchAction` present (enables Google Sitelinks searchbox) | Rich Results Test on homepage | ☐ |
 | 4.6 | No schema validation errors or warnings | Google Rich Results Test — zero red errors | ☐ |
 
@@ -61,8 +61,8 @@
 | # | Check | How to Verify | Status |
 |---|-------|---------------|--------|
 | 5.1 | Homepage has exactly one `<h1>` | Browser DevTools → Elements → search `h1` | ☐ |
-| 5.2 | Each product page `<h1>` is the product name (Dawn default) | View any product page source | ☐ |
-| 5.3 | Each collection page `<h1>` is the collection title (Dawn default) | View any collection page source | ☐ |
+| 5.2 | Each product page `<h1>` is the product name (set in product page component) | View any product page source | ☐ |
+| 5.3 | Each collection page `<h1>` is the collection title (set in collection page component) | View any collection page source | ☐ |
 | 5.4 | No heading levels skipped (H1 → H2 → H3, not H1 → H3) | Browser DevTools or ahrefs SEO toolbar | ☐ |
 
 ---
@@ -88,7 +88,7 @@
 | 7.3 | Mobile INP (Interaction to Next Paint) | < 200 ms | PageSpeed Insights → Mobile tab | ☐ |
 | 7.4 | Mobile PageSpeed score | > 70 | PageSpeed Insights → Mobile tab | ☐ |
 | 7.5 | No render-blocking scripts from installed apps | PageSpeed → Opportunities → "Eliminate render-blocking resources" | ☐ |
-| 7.6 | Lazy loading enabled for below-the-fold images (Dawn default) | View page source — `loading="lazy"` on non-hero images | ☐ |
+| 7.6 | Lazy loading enabled for below-the-fold images (`next/image` default) | View page source — `loading="lazy"` on non-hero images | ☐ |
 
 ---
 
@@ -99,7 +99,7 @@
 | 8.1 | Store is fully responsive on mobile (320 px to 428 px viewports) | Chrome DevTools → responsive mode → test collection + product + checkout | ☐ |
 | 8.2 | Tap targets (buttons, links) are at least 48×48 px on mobile | DevTools → Lighthouse → Accessibility audit | ☐ |
 | 8.3 | Sufficient colour contrast on all text (WCAG AA — 4.5:1 ratio minimum) | Lighthouse accessibility audit | ☐ |
-| 8.4 | Viewport meta tag present (`<meta name="viewport" content="width=device-width, initial-scale=1">`) | Dawn theme includes this by default — verify in theme.liquid | ☐ |
+| 8.4 | Viewport meta tag present (`<meta name="viewport" content="width=device-width, initial-scale=1">`) | Next.js includes this automatically — verify in page source | ☐ |
 
 ---
 
@@ -107,7 +107,7 @@
 
 | # | Check | How to Verify | Status |
 |---|-------|---------------|--------|
-| 9.1 | All product pages have a self-referencing canonical tag (Dawn outputs this natively) | View product page source → search `rel="canonical"` | ☐ |
+| 9.1 | All product pages have a self-referencing canonical tag (Next.js `Metadata.alternates.canonical` set in `generateMetadata`) | View product page source → search `rel="canonical"` | ☐ |
 | 9.2 | Filtered/sorted collection URLs (e.g. `?sort_by=price-ascending`) are canonicalised to the base collection URL | View filtered page source → canonical should point to unfiltered URL | ☐ |
 | 9.3 | `www` vs non-`www` redirects to one canonical version | Visit both — one should 301 to the other | ☐ |
 | 9.4 | `HTTP` redirects to `HTTPS` | Visit `http://` URL — should 301 to `https://` | ☐ |
@@ -128,19 +128,19 @@
 
 ---
 
-## 11. Shopify-Specific Built-In SEO Features (Verify Active)
+## 11. Next.js + Shopify Built-In SEO Features (Verify Active)
 
-Dawn theme and Shopify core handle the following automatically. Verify each is not accidentally disabled.
+Next.js and Shopify core handle the following automatically. Verify each is not accidentally disabled.
 
 | Feature | Where to Check |
 |---------|---------------|
-| Auto-generated sitemap at `/sitemap.xml` | Visit the URL — should return XML |
-| Auto-generated `robots.txt` | Visit `/robots.txt` |
-| SSL/HTTPS on all pages | Shopify Admin → Domains → SSL certificate status |
-| Canonical tags on all pages | View source of product and collection pages |
-| Product schema JSON-LD on product pages | Rich Results Test |
-| 301 redirect when product URL handle is changed | Shopify prompts to create a redirect — always accept |
-| Breadcrumb navigation (assistive for BreadcrumbList schema) | Dawn collection/product pages show breadcrumbs visually |
+| Sitemap at `/sitemap.xml` (auto-generated by `src/app/sitemap.ts`) | Visit the URL — should return XML with all products + collections |
+| `robots.txt` (generated by `src/app/robots.ts`) | Visit `/robots.txt` — should block `/api/`, `/admin`, `/checkout`, etc. |
+| SSL/HTTPS on all pages | Hosting provider → domain settings → SSL certificate status |
+| Canonical tags on all pages | View source of product and collection pages → `rel="canonical"` |
+| Product schema JSON-LD on product pages (`buildProductSchema()`) | Rich Results Test |
+| 301 redirect when Shopify product URL handle is changed | Shopify prompts to create a redirect — always accept |
+| Breadcrumb navigation (assistive for `BreadcrumbList` schema) | Collection/product pages show breadcrumbs visually |
 
 ---
 
