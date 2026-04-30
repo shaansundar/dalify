@@ -3,6 +3,7 @@ import { AdminSidebar } from "@/components/admin/layout/AdminSidebar";
 import { AdminHeader } from "@/components/admin/layout/AdminHeader";
 import { AdminProviders } from "@/components/admin/layout/AdminProviders";
 import { Toaster } from "sonner";
+import { auth } from "@/lib/auth/config";
 
 export const metadata: Metadata = {
   title: {
@@ -12,11 +13,22 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
+  if (!session) {
+    return (
+      <AdminProviders>
+        {children}
+        <Toaster position="bottom-right" richColors />
+      </AdminProviders>
+    );
+  }
+
   return (
     <AdminProviders>
       <div className="flex h-screen overflow-hidden bg-warm-white">
